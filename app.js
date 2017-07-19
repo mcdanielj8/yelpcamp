@@ -15,7 +15,8 @@ var commentRoutes = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
     indexRoutes = require("./routes/index");
 
-mongoose.connect(process.env.DATABASEURL);
+var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp";
+mongoose.connect(url);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -23,6 +24,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB();
+app.locals.moment = require('moment');
     
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
